@@ -12,7 +12,7 @@ class PlacesModel {
   String long;
   String resultType;
   String popularity;
-  int sortCriteria;
+  dynamic sortCriteria;
 
   PlacesModel(
       {this.id,

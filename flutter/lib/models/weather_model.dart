@@ -306,8 +306,8 @@ class Daily {
   double windGust;
   List<Weather> weather;
   int clouds;
-  double pop;
-  double uvi;
+  dynamic pop;
+  dynamic uvi;
   double rain;
 
   Daily(
