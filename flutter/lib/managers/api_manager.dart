@@ -4,6 +4,7 @@ import 'package:travel_app/environment.dart';
 import 'package:travel_app/helpers/response_builder.dart';
 import 'package:travel_app/models/final_response.dart';
 import 'package:travel_app/models/places_model.dart';
+import 'package:travel_app/utils/enums.dart';
 
 class ApiManager {
   // singleton
@@ -24,7 +25,7 @@ class ApiManager {
     double lng,
   ) async {
     String endpoint =
-        '${Environment.of(_context).weatherBaseUrl}/onecall?lat=$lat&lon=$lng&exclude=minutely,hourly&appid=${Environment.of(_context).weatherApiKey}';
+        '${Environment.of(_context).weatherBaseUrl}/onecall?lat=$lat&lon=$lng&exclude=minutely,hourly&appid=${Environment.of(_context).weatherApiKey}&units=${Units.metric}';
     http.Request request = http.Request('GET', Uri.parse(endpoint));
 
     http.StreamedResponse response = await request.send();
