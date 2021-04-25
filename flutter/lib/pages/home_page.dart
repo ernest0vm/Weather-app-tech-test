@@ -100,7 +100,7 @@ class _HomePageState extends State<HomePage> {
           stream: widget.getWeatherStream,
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              return Text("Ocurrio un error.");
+              return errorMessage();
             } else if (snapshot.hasData) {
               return mainCardContent(snapshot.data.current);
             }
@@ -146,11 +146,11 @@ class _HomePageState extends State<HomePage> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           currentWeatherExtraItem(
-              FontAwesomeIcons.wind, '${current.windSpeed} \nm/s'),
+              FontAwesomeIcons.wind, '${current.windSpeed} m/s'),
           currentWeatherExtraItem(
-              FontAwesomeIcons.tachometerAlt, '${current.pressure} \nhPa'),
+              FontAwesomeIcons.tachometerAlt, '${current.pressure} hPa'),
           currentWeatherExtraItem(
-              FontAwesomeIcons.tint, '${current.humidity} \n%'),
+              FontAwesomeIcons.tint, '${current.humidity} %'),
         ],
       );
 
@@ -163,6 +163,7 @@ class _HomePageState extends State<HomePage> {
             Icon(
               icon,
               size: 30,
+              color: Colors.black54,
             ),
             SizedBox(
               height: 5,
@@ -182,10 +183,10 @@ class _HomePageState extends State<HomePage> {
           stream: widget.getWeatherStream,
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              return Text("Ocurrio un error.");
+              return errorMessage();
             } else if (snapshot.hasData) {
               if (snapshot.data.daily.isEmpty) {
-                return Text("No hay datos climaticos.");
+                return emptyListMessage();
               } else {
                 List<Daily> dailyList = snapshot.data.daily;
                 if (dailyList.length > 7) {
@@ -218,10 +219,10 @@ class _HomePageState extends State<HomePage> {
           stream: widget.getWeatherStream,
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              return Text("Ocurrio un error.");
+              return errorMessage();
             } else if (snapshot.hasData) {
               if (snapshot.data.daily.isEmpty) {
-                return Text("No hay datos climaticos.");
+                return emptyListMessage();
               } else {
                 List<Daily> dailyList = snapshot.data.daily;
                 if (dailyList.length > 7) {
@@ -383,10 +384,10 @@ class _HomePageState extends State<HomePage> {
           stream: widget.getWeatherStream,
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              return Text("Ocurrio un error.");
+              return errorMessage();
             } else if (snapshot.hasData) {
               if (snapshot.data.daily.isEmpty) {
-                return Text("No hay datos climaticos.");
+                return emptyListMessage();
               } else {
                 List<Hourly> hourlyList = snapshot.data.hourly;
                 // hourlyList.re
@@ -445,6 +446,30 @@ class _HomePageState extends State<HomePage> {
               child: LinearProgressIndicator(),
             ),
           )
+        ],
+      ),
+    );
+
+    Widget errorMessage() => Container(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.cancel, size: 40, color: Colors.redAccent),
+          SizedBox(height: 10,),
+          Text('Ops, an error occurred...'),
+        ],
+      ),
+    );
+
+    Widget emptyListMessage() => Container(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.list, size: 40, color: Colors.white),
+          SizedBox(height: 10,),
+          Text('No data to show...'),
         ],
       ),
     );
