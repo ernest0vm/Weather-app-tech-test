@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppStyles {
   static const TextStyle currentTemp =
-      TextStyle(fontSize: 70, fontWeight: FontWeight.bold);
+      TextStyle(fontSize: 70, fontWeight: FontWeight.w300);
 
   static const TextStyle dailyForeCastTemp =
       TextStyle(fontSize: 40, fontWeight: FontWeight.bold);
