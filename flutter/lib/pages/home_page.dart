@@ -104,7 +104,7 @@ class _HomePageState extends State<HomePage> {
             } else if (snapshot.hasData) {
               return mainCardContent(snapshot.data.current);
             }
-            return Text("Cargando datos climaticos.");
+            return loader();
           },
         ),
       );
@@ -207,7 +207,7 @@ class _HomePageState extends State<HomePage> {
               }
             }
 
-            return Text("Cargando datos climaticos.");
+            return loader();
           },
         ),
       );
@@ -241,7 +241,7 @@ class _HomePageState extends State<HomePage> {
               }
             }
 
-            return Text("Cargando datos climaticos.");
+            return loader();
           },
         ),
       );
@@ -405,7 +405,7 @@ class _HomePageState extends State<HomePage> {
               }
             }
 
-            return Text("Cargando datos climaticos.");
+            return loader();
           },
         ),
       );
@@ -431,4 +431,21 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       );
+
+    Widget loader() => Container(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('Loading data...'),
+          SizedBox(
+            width: 150,
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: LinearProgressIndicator(),
+            ),
+          )
+        ],
+      ),
+    );
 }
