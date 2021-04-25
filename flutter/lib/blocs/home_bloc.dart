@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:travel_app/environment.dart';
 import 'package:travel_app/managers/api_manager.dart';
@@ -73,6 +74,41 @@ mixin HomeBloc {
 
   String getIconUrl(BuildContext context, String iconName) {
     return '${Environment.of(context).weatherIconBaseUrl}/$iconName@2x.png';
+  }
+
+  Future<void> requestLocation() async {
+    Location location = new Location();
+
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+    LocationData _locationData;
+
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        await requestCities("CDMX");
+        setSelectedPlace(getPlacesList.first);
+        PlacesModel selectedPlace = getSelectedPlace;
+        if (selectedPlace != null) {
+          requestWeather(selectedPlace.lat, selectedPlace.long);
+        }
+        return;
+      }
+    }
+
+    _locationData = await location.getLocation();
+
+    requestWeather(
+        _locationData.latitude.toString(), _locationData.longitude.toString());
   }
 
   void dispose() {

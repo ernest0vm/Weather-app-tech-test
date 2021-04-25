@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    widget.requestWeather("19.99", "-99.998");
+    widget.requestLocation();
     super.initState();
   }
 
@@ -40,13 +40,13 @@ class _HomePageState extends State<HomePage> {
           onTap: () => dismissKeyboard(),
           child: RefreshIndicator(
             onRefresh: () async {
-
               PlacesModel selectedPlace = widget.getSelectedPlace;
               if (selectedPlace != null) {
                 widget.requestWeather(selectedPlace.lat, selectedPlace.long);
+              } else {
+                widget.requestLocation();
               }
 
-              widget.requestWeather("19.99", "-99.99");
               return;
             },
             child: body(),
@@ -138,7 +138,8 @@ class _HomePageState extends State<HomePage> {
                             child: ListTile(
                               onTap: () {
                                 widget.setSelectedPlace(placesList[index]);
-                                widget.requestWeather(widget.getSelectedPlace.lat,
+                                widget.requestWeather(
+                                    widget.getSelectedPlace.lat,
                                     widget.getSelectedPlace.long);
                                 dismissKeyboard();
                               },
