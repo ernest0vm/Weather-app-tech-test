@@ -42,6 +42,7 @@ class _HomePageState extends State<HomePage> {
             onRefresh: () async {
               PlacesModel selectedPlace = widget.getSelectedPlace;
               if (selectedPlace != null) {
+                dismissKeyboard();
                 widget.requestWeather(selectedPlace.lat, selectedPlace.long);
               } else {
                 widget.requestLocation();
@@ -81,9 +82,11 @@ class _HomePageState extends State<HomePage> {
               decoration: InputDecoration(
                 hintText: 'Find a place?',
                 hintStyle: AppStyles.sectionTitleDark,
-                focusColor: Colors.white,
+                focusColor: Colors.transparent,
                 focusedBorder: InputBorder.none,
                 border: InputBorder.none,
+                filled: false,
+                fillColor: Colors.transparent,
                 suffixIcon: IconButton(
                   icon: Icon(
                     Icons.search,
@@ -106,55 +109,64 @@ class _HomePageState extends State<HomePage> {
                   dismissKeyboard();
                 }
               },
-              onTap: () => FocusScope.of(context).requestFocus(searchFocusNode),
-            ),
-          ),
-          AnimatedContainer(
-            duration: Duration(milliseconds: 250),
-            height: (searchFocusNode.hasFocus && searchController.text.isEmpty)
-                ? 200
-                : 0,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(10),
-                bottomRight: Radius.circular(10),
-              ),
-            ),
-            child: StreamBuilder<List<PlacesModel>>(
-              stream: widget.getPlacesListStream,
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return errorMessage();
-                } else if (snapshot.hasData) {
-                  List<PlacesModel> placesList = snapshot.data;
-                  if (placesList.isEmpty) {
-                    return emptyListMessage();
-                  } else {
-                    return ListView.builder(
-                        itemCount: placesList.length,
-                        itemBuilder: (context, index) {
-                          return Material(
-                            child: ListTile(
-                              onTap: () {
-                                widget.setSelectedPlace(placesList[index]);
-                                widget.requestWeather(
-                                    widget.getSelectedPlace.lat,
-                                    widget.getSelectedPlace.long);
-                                dismissKeyboard();
-                              },
-                              title: Text(placesList[index].cityName),
-                              subtitle: Text(
-                                  '${placesList[index].state}, ${placesList[index].country}'),
-                            ),
-                          );
-                        });
-                  }
-                }
-
-                return Container();
+              onTap: () {
+                FocusScope.of(context).requestFocus(searchFocusNode);
               },
             ),
+          ),
+          StreamBuilder(
+            stream: widget.getPlacesListStream,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Container(
+                  height: 250,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(15),
+                      bottomRight: Radius.circular(15),
+                    ),
+                  ),
+                  child: StreamBuilder<List<PlacesModel>>(
+                    stream: widget.getPlacesListStream,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return errorMessage();
+                      } else if (snapshot.hasData) {
+                        List<PlacesModel> placesList = snapshot.data;
+                        if (placesList.isEmpty) {
+                          return emptyListMessage();
+                        } else {
+                          return ListView.builder(
+                            itemCount: placesList.length,
+                            itemBuilder: (context, index) {
+                              return Material(
+                                child: ListTile(
+                                  onTap: () {
+                                    widget.setSelectedPlace(placesList[index]);
+                                    widget.requestWeather(
+                                        widget.getSelectedPlace.lat,
+                                        widget.getSelectedPlace.long);
+                                    dismissKeyboard();
+                                  },
+                                  title: Text(placesList[index].cityName),
+                                  subtitle: Text(
+                                      '${placesList[index].state}, ${placesList[index].country}'),
+                                ),
+                              );
+                            },
+                          );
+                        }
+                      }
+
+                      return Container();
+                    },
+                  ),
+                );
+              }
+
+              return Container();
+            },
           ),
         ],
       );
