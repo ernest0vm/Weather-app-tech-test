@@ -31,10 +31,10 @@ Please use next environment:
 
 ## Screenshots
 
-<img src="./screenshots/flutter/sc-1.png" width="210" />
-<img src="./screenshots/flutter/sc-2.png" width="210" />
-<img src="./screenshots/flutter/sc-3.png" width="210" />
-<img src="./screenshots/flutter/sc-4.png" width="210" />
+|<img src="./screenshots/flutter/sc-1.png" width="210" />
+|<img src="./screenshots/flutter/sc-2.png" width="210" />
+|<img src="./screenshots/flutter/sc-3.png" width="210" />
+|<img src="./screenshots/flutter/sc-4.png" width="210" />
 
 ## App in Action
 
