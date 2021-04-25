@@ -6,6 +6,7 @@ void main() {
   final Environment environment = Environment(
     serviceBaseUrl: 'https://search.reservamos.mx/api/v2',
     weatherBaseUrl: 'https://api.openweathermap.org/data/2.5',
+    weatherIconBaseUrl: 'http://openweathermap.org/img/wn',
     weatherApiKey: 'a5a47c18197737e8eeca634cd6acb581',
     child: App(),
   );

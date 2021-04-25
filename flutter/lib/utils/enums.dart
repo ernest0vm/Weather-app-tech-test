@@ -6,4 +6,10 @@ class Units {
 class ResultType {
   static const city = "city";
   static const terminal = "terminal";
+  static const airport = "airport";
+}
+
+enum TemperatureType {
+  min,
+  max
 }

@@ -7,12 +7,14 @@ class Environment extends InheritedWidget {
       {@required this.weatherApiKey,
       @required this.child,
       @required this.weatherBaseUrl,
+      @required this.weatherIconBaseUrl,
       @required this.serviceBaseUrl,
       Key key})
       : super(key: key);
 
   final Widget child;
   final String weatherBaseUrl;
+  final String weatherIconBaseUrl;
   final String serviceBaseUrl;
   final String weatherApiKey;
 
@@ -27,6 +29,7 @@ class Environment extends InheritedWidget {
     super.debugFillProperties(properties);
     properties.add(StringProperty("serviceBaseUrl", serviceBaseUrl));
     properties.add(StringProperty("weatherBaseUrl", weatherBaseUrl));
+    properties.add(StringProperty("weatherIconBaseUrl", weatherIconBaseUrl));
     properties.add(StringProperty("weatherApiKey", weatherApiKey));
     properties.add(DiagnosticsProperty<Widget>("child", child));
   }

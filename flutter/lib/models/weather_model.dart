@@ -1,8 +1,8 @@
 class WeatherModel {
-  double lat;
-  double lon;
+  dynamic lat;
+  dynamic lon;
   String timezone;
-  int timezoneOffset;
+  dynamic timezoneOffset;
   Current current;
   List<Minutely> minutely;
   List<Hourly> hourly;
@@ -68,20 +68,20 @@ class WeatherModel {
 }
 
 class Current {
-  int dt;
-  int sunrise;
-  int sunset;
-  double temp;
-  double feelsLike;
-  int pressure;
-  int humidity;
-  double dewPoint;
-  double uvi;
-  int clouds;
-  int visibility;
-  double windSpeed;
-  int windDeg;
-  double windGust;
+  dynamic dt;
+  dynamic sunrise;
+  dynamic sunset;
+  dynamic temp;
+  dynamic feelsLike;
+  dynamic pressure;
+  dynamic humidity;
+  dynamic dewPoint;
+  dynamic uvi;
+  dynamic clouds;
+  dynamic visibility;
+  dynamic windSpeed;
+  dynamic windDeg;
+  dynamic windGust;
   List<Weather> weather;
 
   Current(
@@ -148,7 +148,7 @@ class Current {
 }
 
 class Weather {
-  int id;
+  dynamic id;
   String main;
   String description;
   String icon;
@@ -173,8 +173,8 @@ class Weather {
 }
 
 class Minutely {
-  int dt;
-  int precipitation;
+  dynamic dt;
+  dynamic precipitation;
 
   Minutely({this.dt, this.precipitation});
 
@@ -192,20 +192,20 @@ class Minutely {
 }
 
 class Hourly {
-  int dt;
-  double temp;
-  double feelsLike;
-  int pressure;
-  int humidity;
-  double dewPoint;
-  double uvi;
-  int clouds;
-  int visibility;
-  double windSpeed;
-  int windDeg;
-  double windGust;
+  dynamic dt;
+  dynamic temp;
+  dynamic feelsLike;
+  dynamic pressure;
+  dynamic humidity;
+  dynamic dewPoint;
+  dynamic uvi;
+  dynamic clouds;
+  dynamic visibility;
+  dynamic windSpeed;
+  dynamic windDeg;
+  dynamic windGust;
   List<Weather> weather;
-  double pop;
+  dynamic pop;
   Rain rain;
 
   Hourly(
@@ -274,7 +274,7 @@ class Hourly {
 }
 
 class Rain {
-  double d1h;
+  dynamic d1h;
 
   Rain({this.d1h});
 
@@ -290,25 +290,25 @@ class Rain {
 }
 
 class Daily {
-  int dt;
-  int sunrise;
-  int sunset;
-  int moonrise;
-  int moonset;
-  double moonPhase;
+  dynamic dt;
+  dynamic sunrise;
+  dynamic sunset;
+  dynamic moonrise;
+  dynamic moonset;
+  dynamic moonPhase;
   Temp temp;
   FeelsLike feelsLike;
-  int pressure;
-  int humidity;
-  double dewPoint;
-  double windSpeed;
-  int windDeg;
-  double windGust;
+  dynamic pressure;
+  dynamic humidity;
+  dynamic dewPoint;
+  dynamic windSpeed;
+  dynamic windDeg;
+  dynamic windGust;
   List<Weather> weather;
-  int clouds;
+  dynamic clouds;
   dynamic pop;
   dynamic uvi;
-  double rain;
+  dynamic rain;
 
   Daily(
       {this.dt,
@@ -392,12 +392,12 @@ class Daily {
 }
 
 class Temp {
-  double day;
-  double min;
-  double max;
-  double night;
-  double eve;
-  double morn;
+  dynamic day;
+  dynamic min;
+  dynamic max;
+  dynamic night;
+  dynamic eve;
+  dynamic morn;
 
   Temp({this.day, this.min, this.max, this.night, this.eve, this.morn});
 
@@ -423,10 +423,10 @@ class Temp {
 }
 
 class FeelsLike {
-  double day;
-  double night;
-  double eve;
-  double morn;
+  dynamic day;
+  dynamic night;
+  dynamic eve;
+  dynamic morn;
 
   FeelsLike({this.day, this.night, this.eve, this.morn});
 

@@ -25,7 +25,7 @@ class ApiManager {
     double lng,
   ) async {
     String endpoint =
-        '${Environment.of(_context).weatherBaseUrl}/onecall?lat=$lat&lon=$lng&exclude=minutely,hourly&appid=${Environment.of(_context).weatherApiKey}&units=${Units.metric}';
+        '${Environment.of(_context).weatherBaseUrl}/onecall?lat=$lat&lon=$lng&exclude=minutely&appid=${Environment.of(_context).weatherApiKey}&units=${Units.metric}';
     http.Request request = http.Request('GET', Uri.parse(endpoint));
 
     http.StreamedResponse response = await request.send();
