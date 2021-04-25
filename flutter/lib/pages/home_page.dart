@@ -67,7 +67,11 @@ class _HomePageState extends State<HomePage> {
             focusedBorder: InputBorder.none,
             border: InputBorder.none,
             suffixIcon: IconButton(
-              icon: Icon(Icons.search),
+              icon: Icon(
+                Icons.search,
+                color: Colors.black,
+                size: 30,
+              ),
               onPressed: null,
             ),
           ),
