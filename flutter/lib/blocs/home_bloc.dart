@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:travel_app/environment.dart';
@@ -16,11 +15,16 @@ mixin HomeBloc {
   final BehaviorSubject<List<PlacesModel>> _places =
       BehaviorSubject<List<PlacesModel>>();
 
+  final BehaviorSubject<PlacesModel> _selectedPlace =
+      BehaviorSubject<PlacesModel>();
+
   // getters
   Stream<WeatherModel> get getWeatherStream => _weather.stream;
   WeatherModel get getWeather => _weather.value;
   Stream<List<PlacesModel>> get getPlacesListStream => _places.stream;
   List<PlacesModel> get getPlacesList => _places.value;
+  Stream<PlacesModel> get getSelectedPlaceStream => _selectedPlace.stream;
+  PlacesModel get getSelectedPlace => _selectedPlace.value;
 
   // setters
   void setWeather(WeatherModel weather) {
@@ -31,8 +35,12 @@ mixin HomeBloc {
     _places.sink.add(places);
   }
 
+  void setSelectedPlace(PlacesModel place) {
+    _selectedPlace.sink.add(place);
+  }
+
   // functions
-  Future<void> requestWeather(double lat, double lng) async {
+  Future<void> requestWeather(String lat, String lng) async {
     FinalResponse response = await ApiManager.instance.getWeatherInfo(lat, lng);
 
     if (response.hasData) {
@@ -42,20 +50,24 @@ mixin HomeBloc {
   }
 
   Future<void> requestCities(String name) async {
-    FinalResponse response = await ApiManager.instance.getPlacesByName(name);
+    if (name.isNotEmpty) {
+      FinalResponse response = await ApiManager.instance.getPlacesByName(name);
 
-    if (response.hasData) {
-      List<PlacesModel> places = <PlacesModel>[];
+      if (response.hasData) {
+        List<PlacesModel> places = <PlacesModel>[];
 
-      for (var item in response.data) {
-        PlacesModel place = PlacesModel.fromJson(item);
-        if (place != null) {
-          places.add(place);
+        for (var item in response.data) {
+          PlacesModel place = PlacesModel.fromJson(item);
+          if (place != null) {
+            places.add(place);
+          }
         }
-      }
 
-      places.retainWhere((place) => place.resultType == ResultType.city);
-      setPlaces(places);
+        places.retainWhere((place) => place.resultType == ResultType.city);
+        setPlaces(places);
+      }
+    } else {
+      setPlaces(null);
     }
   }
 
@@ -66,5 +78,6 @@ mixin HomeBloc {
   void dispose() {
     _weather?.close();
     _places?.close();
+    _selectedPlace?.close();
   }
 }

@@ -21,8 +21,8 @@ class ApiManager {
   }
 
   Future<FinalResponse> getWeatherInfo(
-    double lat,
-    double lng,
+    String lat,
+    String lng,
   ) async {
     String endpoint =
         '${Environment.of(_context).weatherBaseUrl}/onecall?lat=$lat&lon=$lng&exclude=minutely&appid=${Environment.of(_context).weatherApiKey}&units=${Units.metric}';
