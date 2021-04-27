@@ -10,7 +10,7 @@ App was developed using a bloc pattern architecture, mixins, extensions, and mor
 
 Please use next environment:
 
-```bash
+```
     [✓] Flutter (Channel stable, 1.22.6, on macOS 11.2.3 20D91 darwin-x64, locale en-MX)
     [✓] Android toolchain - develop for Android devices (Android SDK version 30.0.3)
     [✓] Xcode - develop for iOS and macOS (Xcode 12.4)
@@ -24,17 +24,14 @@ Please use next environment:
 
 ## Run Android app
 
-- 1) download dependency packages using `flutter pub get` command
-- 2) open a **simulator** o connect a **physical device**.
-- 3) run flutter project using `flutter run`
-- 4) for iOS project some times is necessary install pods using `cd ios && pod install` command.
+- Download dependency packages using `flutter pub get` command
+- Open a **simulator** o connect a **physical device**.
+- Run flutter project using `flutter run`
+- For iOS project some times is necessary install pods using `cd ios && pod install` command.
 
 ## Screenshots
 
-|<img src="./screenshots/flutter/sc-1.png" width="210" />
-|<img src="./screenshots/flutter/sc-2.png" width="210" />
-|<img src="./screenshots/flutter/sc-3.png" width="210" />
-|<img src="./screenshots/flutter/sc-4.png" width="210" />
+<img src="./screenshots/flutter/sc-1.png" width="210" /> <img src="./screenshots/flutter/sc-2.png" width="210" /> <img src="./screenshots/flutter/sc-3.png" width="210" /> <img src="./screenshots/flutter/sc-4.png" width="210" />
 
 ## App in Action
 
