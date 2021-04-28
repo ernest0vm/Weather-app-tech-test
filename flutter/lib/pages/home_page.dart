@@ -62,7 +62,35 @@ class _HomePageState extends State<HomePage> {
           padding: EdgeInsets.zero,
           children: [
             searchBar(),
-            mainCard(),
+            StreamBuilder<List<PlacesModel>>(
+                stream: widget.getPlacesFromListStream,
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return errorMessage();
+                  } else if (snapshot.hasData) {
+                    return CarouselSlider(
+                      options: CarouselOptions(
+                        enableInfiniteScroll: false,
+                        aspectRatio: 1,
+                        enlargeCenterPage: true,
+                        initialPage: 0,
+                        viewportFraction: 1,
+                        onPageChanged: (index, reason) {
+                          widget.requestWeather(snapshot.data[index].lat,
+                              snapshot.data[index].long);
+                        },
+                      ),
+                      items: List.generate(
+                        snapshot.data.length,
+                        (index) => mainCard(
+                            '${snapshot.data[index].cityName}, ${snapshot.data[index].state}'),
+                      ),
+                    );
+                  }
+
+                  return Container();
+                }),
+            SizedBox(height: 20),
             sectionTitle('Weather forecast'),
             forecastWeekList(),
             sectionTitle('Today'),
@@ -179,26 +207,33 @@ class _HomePageState extends State<HomePage> {
         ),
       );
 
-  Widget mainCard() => Container(
-        width: MediaQuery.of(context).size.width * 0.8,
-        height: MediaQuery.of(context).size.height * 0.45,
+  Widget mainCard(String title) => Container(
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(color: Colors.grey, blurRadius: 5, offset: Offset(0, 2))
+            ]),
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height * 0.40,
         margin: EdgeInsets.all(10),
-        padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+        padding: EdgeInsets.all(20),
         child: StreamBuilder<WeatherModel>(
           stream: widget.getWeatherStream,
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return errorMessage();
             } else if (snapshot.hasData) {
-              return mainCardContent(snapshot.data.current);
+              return mainCardContent(title, snapshot.data.current);
             }
             return loader();
           },
         ),
       );
 
-  Widget mainCardContent(Current current) => Column(
+  Widget mainCardContent(String title, Current current) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -211,8 +246,7 @@ class _HomePageState extends State<HomePage> {
                 stream: widget.getSelectedPlaceStream,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return Text(
-                      '${snapshot.data.cityName.capitalize()}, ${snapshot.data.state.capitalize()}',
+                    return Text(title,
                       style: AppStyles.dailyForeCastDescription,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,

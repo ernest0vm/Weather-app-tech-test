@@ -16,6 +16,9 @@ mixin HomeBloc {
   final BehaviorSubject<List<PlacesModel>> _places =
       BehaviorSubject<List<PlacesModel>>();
 
+  final BehaviorSubject<List<PlacesModel>> _placesFrom =
+      BehaviorSubject<List<PlacesModel>>();
+
   final BehaviorSubject<PlacesModel> _selectedPlace =
       BehaviorSubject<PlacesModel>();
 
@@ -24,6 +27,8 @@ mixin HomeBloc {
   WeatherModel get getWeather => _weather.value;
   Stream<List<PlacesModel>> get getPlacesListStream => _places.stream;
   List<PlacesModel> get getPlacesList => _places.value;
+  Stream<List<PlacesModel>> get getPlacesFromListStream => _placesFrom.stream;
+  List<PlacesModel> get getPlacesFromList => _placesFrom.value;
   Stream<PlacesModel> get getSelectedPlaceStream => _selectedPlace.stream;
   PlacesModel get getSelectedPlace => _selectedPlace.value;
 
@@ -36,12 +41,17 @@ mixin HomeBloc {
     _places.sink.add(places);
   }
 
+  void setPlacesFrom(List<PlacesModel> placesFrom) {
+    _placesFrom.sink.add(placesFrom);
+  }
+
   void setSelectedPlace(PlacesModel place) {
     _selectedPlace.sink.add(place);
   }
 
   // functions
   Future<void> requestWeather(String lat, String lng) async {
+    setWeather(null);
     FinalResponse response = await ApiManager.instance.getWeatherInfo(lat, lng);
 
     if (response.hasData) {
@@ -52,7 +62,7 @@ mixin HomeBloc {
 
   Future<void> requestCities(String name) async {
     if (name.isNotEmpty) {
-      FinalResponse response = await ApiManager.instance.getPlacesByName(name);
+      FinalResponse response = await ApiManager.instance.getPlacesByNameAndFrom(name, null);
 
       if (response.hasData) {
         List<PlacesModel> places = <PlacesModel>[];
@@ -66,9 +76,32 @@ mixin HomeBloc {
 
         places.retainWhere((place) => place.resultType == ResultType.city);
         setPlaces(places);
+        setPlacesFrom(places);
       }
     } else {
       setPlaces(null);
+    }
+  }
+
+  Future<void> requestCitiesFrom(String name, String from) async {
+    if (name.isNotEmpty) {
+      FinalResponse response = await ApiManager.instance.getPlacesByNameAndFrom(name, from);
+
+      if (response.hasData) {
+        List<PlacesModel> places = <PlacesModel>[];
+
+        for (var item in response.data) {
+          PlacesModel place = PlacesModel.fromJson(item);
+          if (place != null) {
+            places.add(place);
+          }
+        }
+
+        places.retainWhere((place) => place.resultType == ResultType.city);
+        setPlacesFrom(places);
+      }
+    } else {
+      setPlacesFrom(null);
     }
   }
 
@@ -114,6 +147,8 @@ mixin HomeBloc {
   void dispose() {
     _weather?.close();
     _places?.close();
+    _placesFrom?.close();
     _selectedPlace?.close();
+
   }
 }

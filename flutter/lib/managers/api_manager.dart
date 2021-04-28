@@ -43,5 +43,15 @@ class ApiManager {
     return finalResponse;
   }
 
+  Future<FinalResponse> getPlacesByNameAndFrom(String name, String from) async {
+    String endpoint =
+        '${Environment.of(_context).serviceBaseUrl}/places?q=$name&from=${(from ?? 'monterrey')}';
+    http.Request request = http.Request('GET', Uri.parse(endpoint));
+
+    http.StreamedResponse response = await request.send();
+    FinalResponse finalResponse = await ResponseBuilder.fromStream(response);
+    return finalResponse;
+  }
+
   
 }
