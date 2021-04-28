@@ -22,7 +22,7 @@ Please use next environment:
 - Your can download flutter SDK here: https://storage.googleapis.com/flutter_infra/releases/stable/windows/flutter_windows_1.22.6-stable.zip
 - Setup your environment using this instructions: https://flutter.dev/docs/get-started/install
 
-## Run Android app
+## Run flutter app
 
 - Download dependency packages using `flutter pub get` command
 - Open a **simulator** o connect a **physical device**.
@@ -35,4 +35,6 @@ Please use next environment:
 
 ## App in Action
 
-<img src="./screenshots/flutter/weather-app.gif" width="210" />
+| 25 April 2021 | 28 April 2021 |
+|-------------|-------------|
+|<img src="./screenshots/flutter/weather-app.gif" width="210" /> | <img src="./screenshots/flutter/weather-app-2.gif" width="210" /> |
